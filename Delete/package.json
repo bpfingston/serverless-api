@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/bpfingston/serverless-api#readme",
   "dependencies": {
-    "dynamoose": "^2.8.2"
+    "dynamoose": "^2.8.2",
+    "uuid": "^8.3.2"
   }
 }
