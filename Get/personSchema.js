@@ -2,7 +2,7 @@
 
 const dynamoose = require('dynamoose');
 const personSchema = new dynamoose.Schema({
-    id: Number,
+    id: String,
     firstName: String,
     lastName: String,
     age: Number,

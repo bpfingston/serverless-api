@@ -1,27 +1,27 @@
 require('dynamoose');
-const PeopleTable = require('./personSchema')
+const PeopleTable = require('./personSchema');
 
 exports.handler = async (event) => {
-  let status = 500;
-
+  let data = null;
+  let id = event.queryStringParameters && event.queryStringParameters.id;
   try {
-    const { id, firstName, lastName, age, gender } = JSON.parse(event.body)
-    let record = new PeopleTable({ id, firstName, lastName, age, gender })
-    let data = await record.scan.exec();
-    status = 200;
+    if (id) {
+      const newData = await PeopleTable.query('id').eq(id).exec();
+      data = newData[0];
+    } else {
+      data = await PeopleTable.scan().exec();
+    }
     const response = {
-      statusCode: status,
+      statusCode: 200,
+      status: 'You have found an Ewok',
       body: JSON.stringify(data),
     };
     return response;
   } catch (err) {
-    data = new Error(err);
-    status = 400;
-    return { 
-        statusCode: status,
-        body: data
-   }
+    const response = {
+      statusCode: 400,
+      body: err.message,
+    };
+    return response;
   }
-
-  
 };
